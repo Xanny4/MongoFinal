@@ -1,0 +1,44 @@
+const { ObjectId } = require("mongodb");
+const MongoDatabase = require("./db");
+
+class OrderItemsCollection {
+    constructor() {
+        this.orderItemsCollection = MongoDatabase.instance().db().collection("orderItems");
+    }
+
+    static instance() {
+        if (!this._instance) {
+            this._instance = new OrderItemsCollection();
+        }
+        return this._instance;
+    }
+
+    static async findAll() {
+        try {
+            return await this.instance().orderItemsCollection.find({}).toArray();
+        } catch (error) {
+            console.error("Error in findAll:", error);
+            throw error;
+        }
+    }
+
+    static async findById(idStr) {
+        try {
+            return await this.instance().orderItemsCollection.findOne({ _id: new ObjectId(idStr) });
+        } catch (error) {
+            console.error("Error in findById:", error);
+            throw error;
+        }
+    }
+
+    static async create(orderItem) {
+        try {
+            return await this.instance().orderItemsCollection.insertOne(orderItem);
+        } catch (error) {
+            console.error("Error in create:", error);
+            throw error;
+        }
+    }
+}
+
+module.exports = OrderItemsCollection;
