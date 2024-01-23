@@ -51,7 +51,7 @@ module.exports = {
         }
     },
 
-    getAllBooksByPublishingYear: async (req, res) => {
+    getBooksByPublishingYear: async (req, res) => {
         try {
             const page = parseInt(req.query.page) || 1;
             const pageSize = parseInt(req.query.pageSize) || 10;
@@ -65,7 +65,7 @@ module.exports = {
         }
     },
 
-    getAllBooksByAuthorCountry: async (req, res) => {
+    getBooksByAuthorCountry: async (req, res) => {
         try {
             const page = parseInt(req.query.page) || 1;
             const pageSize = parseInt(req.query.pageSize) || 10;
