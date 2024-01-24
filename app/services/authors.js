@@ -1,4 +1,5 @@
-const { authorsDB, booksDB } = require('../db/authors')
+const authorsDB = require('../db/authors');
+const booksDB = require('../db/books');
 
 module.exports = {
     createAuthor: async (req, res) => {
@@ -13,7 +14,7 @@ module.exports = {
     },
     updateAuthor: async (req, res) => {
         try {
-            const id = req.params;
+            const id = req.params.id;
             const author = req.body;
             await authorsDB.updateAuthor(author, id);
             res.status(200).json({ message: "author updated" });
@@ -24,7 +25,7 @@ module.exports = {
     },
     getAllBooks: async (req, res) => {
         try {
-            const id = req.params;
+            const id = req.params.id;
             const author = authorsDB.findById(id);
             if (!author)
                 throw new Error("Author not found");

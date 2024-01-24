@@ -1,10 +1,9 @@
 const app = require("./app");
-const MongoDatabase = require("./app/DAL/db");
-
+const mongoose = require("mongoose");
 const run = async () => {
     try {
         const port = process.env.PORT || "3000";
-        await MongoDatabase.instance().connect();
+        await mongoose.connect('mongodb://localhost:27017/my_db');
         app.listen(port, () => console.log(`Listening on port: ${port}`));
     }
     catch (err) {
@@ -15,7 +14,7 @@ const run = async () => {
 run();
 
 process.on('SIGINT', async () => {
-    await MongoDatabase.instance().disconnect();
+    await mongoose.connection.close()
     process.exit(0);
 });
 

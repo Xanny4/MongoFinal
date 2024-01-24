@@ -11,7 +11,7 @@ module.exports = {
             throw new Error("Error creating books", error);
         }
     },
-    findByAuthor: async (authorId) => {
+    getBooksByAuthor: async (authorId) => {
         try {
             return await Books.find({ authors: authorId });
         }
@@ -80,6 +80,35 @@ module.exports = {
         catch (error) {
             console.log(error);
             throw new Error("Error finding books by country", error);
+        }
+    },
+    checkBookInSupply: async (bookId, amount) => {
+        try {
+            const book = await Books.findById(bookId);
+            return book.quantity >= amount;
+        } catch (err) {
+            console.log(err);
+            throw new Error("Internal Server Error", err);
+        }
+    },
+    getBookPrice: async (bookId) => {
+        try {
+            const book = await Books.findById(bookId);
+            return book.price;
+        } catch (err) {
+            console.log(err);
+            throw new Error("Internal Server Error", err);
+        }
+    },
+    decreaseBookQuantity: async (bookId, amount) => {
+        try {
+            await Books.findByIdAndUpdate(
+                bookId,
+                { $inc: { quantity: -amount } },
+            );
+        } catch (err) {
+            console.log(err);
+            throw new Error("Internal Server Error", err);
         }
     },
 }
